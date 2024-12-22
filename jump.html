@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jump Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var code = getQueryParam('code');
+            if (code) {
+                postData(code, function() {
+                    setTimeout(function() {
+                        setInterval(function() {
+                            getJsonData();
+                        }, 1000);
+                    }, 2000);
+                });
+            }
+        });
+
+        function getQueryParam(param) {
+            var params = {};
+            window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(match, key, value) {
+                params[key] = decodeURIComponent(value);
+            });
+            return params[param];
+        }
+
+        function postData(code, callback) {
+            $.ajax({
+                url: 'https://nfc7iow681.feishu.cn/base/workflow/webhook/event/GB0Was8Q2wLpj0hKid5cYT65nmf',
+                type: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify({ "code": code }),
+                success: callback,
+                error: function() {
+                    alert('Error sending POST request');
+                }
+            });
+        }
+
+        function getJsonData() {
+            $.ajax({
+                url: 'http://188.166.220.226:31001/get-one?key=b3CjXNQwiMzXv6m4E5NyUQ',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    if (isValidJSON(JSON.stringify(data))) {
+                        alert(JSON.stringify(data));
+                    }
+                },
+                error: function() {
+                    // If not valid JSON, continue to retry
+                    getJsonData();
+                }
+            });
+        }
+
+        function isValidJSON(text) {
+            try {
+                JSON.parse(text);
+            } catch (e) {
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h1>Jump Page</h1>
+</body>
+</html>
