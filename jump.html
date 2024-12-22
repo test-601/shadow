@@ -7,12 +7,11 @@
     <script>
         $(document).ready(function() {
             var code = getQueryParam('code');
+            var attempt = 0; // 尝试次数计数器
             if (code) {
                 postData(code, function() {
                     setTimeout(function() {
-                        setInterval(function() {
-                            getJsonData();
-                        }, 1000);
+                        attemptJsonRequest();
                     }, 2000);
                 });
             }
@@ -41,19 +40,30 @@
             });
         }
 
-        function getJsonData() {
+        function attemptJsonRequest() {
             $.ajax({
-                url: 'http://188.166.220.226:31001/get-one?key=b3CjXNQwiMzXv6m4E5NyUQ',
+                url: 'http://localhost:31001/get-one?key=b3CjXNQwiMzXv6m4E5NyUQ',
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
                     if (isValidJSON(JSON.stringify(data))) {
                         alert(JSON.stringify(data));
+                    } else {
+                        attempt++;
+                        if (attempt < 5) {
+                            setTimeout(attemptJsonRequest, 1000); // 1秒后重试
+                        } else {
+                            alert('Failed to get valid JSON after 5 attempts');
+                        }
                     }
                 },
                 error: function() {
-                    // If not valid JSON, continue to retry
-                    getJsonData();
+                    attempt++;
+                    if (attempt < 5) {
+                        setTimeout(attemptJsonRequest, 1000); // 1秒后重试
+                    } else {
+                        alert('Failed to get valid JSON after 5 attempts');
+                    }
                 }
             });
         }
