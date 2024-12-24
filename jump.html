@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Jump Page</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
+        var code;
         $(document).ready(function() {
-            var code = getQueryParam('code');
+            code = getQueryParam('code');
             var attempt = 0; // 尝试次数计数器
             if (code) {
                 postData(code, function() {
@@ -27,7 +28,8 @@
 
         function postData(code, callback) {
             $.ajax({
-                url: 'https://nfc7iow681.feishu.cn/base/workflow/webhook/event/GB0Was8Q2wLpj0hKid5cYT65nmf',
+                // url: 'https://nfc7iow681.feishu.cn/base/workflow/webhook/event/GB0Was8Q2wLpj0hKid5cYT65nmf',
+                url: 'http://188.166.220.226:8002/base/workflow/webhook/event/GB0Was8Q2wLpj0hKid5cYT65nmf',
                 type: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -42,12 +44,18 @@
 
         function attemptJsonRequest() {
             $.ajax({
-                url: 'http://localhost:31001/get-one?key=b3CjXNQwiMzXv6m4E5NyUQ',
+                url: 'http://188.166.220.226:8003/get-one?key=' + code,
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
                     if (isValidJSON(JSON.stringify(data))) {
-                        alert(JSON.stringify(data));
+                        // alert(JSON.stringify(data));
+                        var value = data.value; // 提取value字段
+                        if (value) {
+                            window.location.href = value; // 使用value字段的值进行网页跳转
+                        } else {
+                            alert('Value field is missing or empty in JSON data');
+                        }
                     } else {
                         attempt++;
                         if (attempt < 5) {
