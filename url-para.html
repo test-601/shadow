@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>URL Parameters Display</title>
+<script>
+// 解析URL参数的函数
+function getQueryParams() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const params = {};
+    for (let [key, value] of urlParams) {
+        params[key] = value;
+    }
+    return params;
+}
+
+// 显示参数的函数
+function displayParams() {
+    const params = getQueryParams();
+    const paramsList = document.getElementById('paramsList');
+    paramsList.innerHTML = ''; // 清空现有的列表
+
+    for (const [key, value] of Object.entries(params)) {
+        const item = document.createElement('li');
+        item.textContent = `${key}: ${value}`;
+        paramsList.appendChild(item);
+    }
+}
+
+// 当页面加载完成后执行
+window.onload = function() {
+    displayParams();
+};
+</script>
+</head>
+<body>
+<h1>URL GET Parameters</h1>
+<ul id="paramsList"></ul>
+</body>
+</html>
