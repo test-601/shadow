@@ -17,8 +17,7 @@ function parseUrlParams(url) {
         titleItem.textContent = url;
         paramsList.appendChild(titleItem);
 
-        const brItem = document.createElement('li');
-        brItem.textContent = '    ';
+        const brItem = document.createElement('br');
         paramsList.appendChild(brItem);
 
         for (let [key, value] of params) {
