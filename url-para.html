@@ -19,24 +19,30 @@ function parseUrlParams(url) {
             paramsList.appendChild(item);
         }
     } catch (error) {
-        alert('请输入有效的URL地址！');
+        document.getElementById('paramsList').innerHTML = '<li>请输入有效的URL地址！</li>';
     }
 }
 
-// 当用户提交表单时执行
-function onSubmit() {
+// 当用户点击按钮时执行
+function onParseButtonClick() {
     const urlInput = document.getElementById('urlInput');
     parseUrlParams(urlInput.value);
-    return false; // 阻止表单默认提交行为
 }
 </script>
+<style>
+/* 增加输入框的样式 */
+#urlInput {
+    width: 100%; /* 输入框宽度为100% */
+    padding: 10px; /* 内边距 */
+    margin-bottom: 10px; /* 外边距 */
+    font-size: 16px; /* 字体大小 */
+}
+</style>
 </head>
 <body>
 <h1>解析URL GET参数</h1>
-<form onsubmit="onSubmit()">
-    <input type="text" id="urlInput" placeholder="请输入网址，例如：https://example.com/?param1=value1&param2=value2">
-    <button type="submit">解析参数</button>
-</form>
+<input type="text" id="urlInput" placeholder="请输入网址，例如：https://example.com/?param1=value1&param2=value2">
+<button onclick="onParseButtonClick()">解析参数</button>
 <ul id="paramsList"></ul>
 </body>
 </html>
