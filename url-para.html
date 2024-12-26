@@ -3,39 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>URL Parameters Display</title>
+<title>URL Parameters Parser</title>
 <script>
 // 解析URL参数的函数
-function getQueryParams() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const params = {};
-    for (let [key, value] of urlParams) {
-        params[key] = value;
-    }
-    return params;
-}
+function parseUrlParams(url) {
+    try {
+        const urlObj = new URL(url);
+        const params = new URLSearchParams(urlObj.search);
+        const paramsList = document.getElementById('paramsList');
+        paramsList.innerHTML = ''; // 清空现有的列表
 
-// 显示参数的函数
-function displayParams() {
-    const params = getQueryParams();
-    const paramsList = document.getElementById('paramsList');
-    paramsList.innerHTML = ''; // 清空现有的列表
-
-    for (const [key, value] of Object.entries(params)) {
-        const item = document.createElement('li');
-        item.textContent = `${key}: ${value}`;
-        paramsList.appendChild(item);
+        for (let [key, value] of params) {
+            const item = document.createElement('li');
+            item.textContent = `${key}: ${value}`;
+            paramsList.appendChild(item);
+        }
+    } catch (error) {
+        alert('请输入有效的URL地址！');
     }
 }
 
-// 当页面加载完成后执行
-window.onload = function() {
-    displayParams();
-};
+// 当用户提交表单时执行
+function onSubmit() {
+    const urlInput = document.getElementById('urlInput');
+    parseUrlParams(urlInput.value);
+    return false; // 阻止表单默认提交行为
+}
 </script>
 </head>
 <body>
-<h1>URL GET Parameters</h1>
+<h1>解析URL GET参数</h1>
+<form onsubmit="onSubmit()">
+    <input type="text" id="urlInput" placeholder="请输入网址，例如：https://example.com/?param1=value1&param2=value2">
+    <button type="submit">解析参数</button>
+</form>
 <ul id="paramsList"></ul>
 </body>
 </html>
