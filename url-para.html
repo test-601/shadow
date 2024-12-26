@@ -13,8 +13,9 @@ function parseUrlParams(url) {
         const paramsList = document.getElementById('paramsList');
         paramsList.innerHTML = ''; // 清空现有的列表
 
-        item.textContent = url;
-        paramsList.appendChild(item);
+        const titleItem = document.createElement('li');
+        titleItem.textContent = url;
+        paramsList.appendChild(titleItem);
 
         for (let [key, value] of params) {
             const item = document.createElement('li');
