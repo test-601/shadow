@@ -28,6 +28,8 @@ function parseUrlParams(url) {
     } catch (error) {
         document.getElementById('paramsList').innerHTML = '<li>请输入有效的URL地址！</li>';
     }
+    const urlInput = document.getElementById('urlInput');
+    urlInput.value = ''; // 清空输入框
 }
 
 // 当用户点击按钮时执行
@@ -50,7 +52,7 @@ function onParseButtonClick() {
 </style>
 </head>
 <body>
-<p>URL Parameters Parser</p>
+<p></p>
 <input type="text" id="urlInput" placeholder="请输入网址，例如：https://example.com/?param1=value1&param2=value2">
 <button onclick="onParseButtonClick()">解析参数</button>
 <ul id="paramsList"></ul>
