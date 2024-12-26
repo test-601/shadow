@@ -13,6 +13,9 @@ function parseUrlParams(url) {
         const paramsList = document.getElementById('paramsList');
         paramsList.innerHTML = ''; // 清空现有的列表
 
+        item.textContent = url;
+        paramsList.appendChild(item);
+
         for (let [key, value] of params) {
             const item = document.createElement('li');
             item.textContent = `${key}: ${value}`;
@@ -40,7 +43,7 @@ function onParseButtonClick() {
 </style>
 </head>
 <body>
-<h1>解析URL GET参数</h1>
+<p>URL Parameters Parser</p>
 <input type="text" id="urlInput" placeholder="请输入网址，例如：https://example.com/?param1=value1&param2=value2">
 <button onclick="onParseButtonClick()">解析参数</button>
 <ul id="paramsList"></ul>
